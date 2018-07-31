@@ -9,7 +9,7 @@ const security = require('./security');
  */
 const ALLOWED_METHODS = ['get', 'post', 'put', 'patch', 'delete', 'options'];
 
-module.exports = (path, data, parameters) => {
+module.exports = (path, data, parameters, responses) => {
   const res = [];
   let pathParameters = null;
 
@@ -47,7 +47,7 @@ module.exports = (path, data, parameters) => {
 
         // Build responses
         if ('responses' in pathInfo) {
-          res.push(`${transformResponses(pathInfo.responses)}\n`);
+          res.push(`${transformResponses(pathInfo.responses, responses)}\n`);
         }
 
         // Build security
