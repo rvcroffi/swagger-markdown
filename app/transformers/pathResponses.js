@@ -6,8 +6,20 @@ const transformDataTypes = require('./dataTypes');
  * @param {object} responses
  * @returns {null|string}
  */
-module.exports = responses => {
+module.exports = (responses, globalResponses = {}) => {
   const res = [];
+  // Merge $ref globalResponses to responses
+  for (const key in responses) {
+    if (responses.hasOwnProperty(key)) {
+      const element = responses[key];
+      if ('$ref' in element) {
+        const ref = (element.$ref).replace(/^#\/responses\//, '');
+        if (ref in globalResponses) {
+          responses[key] = globalResponses[ref];
+        }
+      }
+    }
+  }
   // Check if schema somewhere
   const schemas = Object.keys(responses).reduce(
     (acc, response) => acc || 'schema' in responses[response],
