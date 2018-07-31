@@ -38,6 +38,8 @@ if (args.input) {
 
     // Collect parameters
     const parameters = ('parameters' in inputDoc) ? inputDoc.parameters : {};
+    // Collect responses
+    const responses = ('responses' in inputDoc) ? inputDoc.responses : {};
 
     // Process info
     if ('info' in inputDoc) {
@@ -58,7 +60,8 @@ if (args.input) {
       Object.keys(inputDoc.paths).forEach(path => document.push(transformPath(
         path,
         inputDoc.paths[path],
-        parameters
+        parameters,
+        responses
       )));
     }
 
